@@ -4,10 +4,24 @@ class ArticlesController < ApplicationController
     render json: articles, status: :ok
   end
 
+  def show
+    article = Article.find(params[:id])
+    render json: article, status: :ok
+  end
+
   def create
-    article = Article.create(article_params)
+    article = Article.new(article_params)
     if article.save
       render json: article, status: :created
+    else
+      render json: { errors: article.errors.messages }, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    article = Article.find(params[:id])
+    if article.update(article_params)
+      render json: article, status: :ok
     else
       render json: { errors: article.errors.messages }, status: :unprocessable_entity
     end
