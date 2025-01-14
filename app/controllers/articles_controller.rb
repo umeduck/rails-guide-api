@@ -6,7 +6,8 @@ class ArticlesController < ApplicationController
 
   def show
     article = Article.find(params[:id])
-    render json: article, status: :ok
+    comments = Comment.where(article_id: params[:id])
+    render json: { article: article, comments: comments }, status: :ok
   end
 
   def create
